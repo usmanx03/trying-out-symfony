@@ -3,17 +3,23 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'home')]
-    public function index(): JsonResponse
+    #[Route('/', name: 'home')]
+    public function index(): Response
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/HomeController.php',
-        ]);
+        $html = '<html><body><h1>Here are your 100 random numbers: <br></h1><ul>';
+
+        for ($i = 0; $i < 100; $i++) {
+            $randomNumber = random_int(0, 1000000);
+            $html .= sprintf('<li>%s</li>', $randomNumber);
+        }
+
+        $html .= '</ul></body></html>';
+
+        return new Response($html, Response::HTTP_OK, ['Content-Type' => 'text/html']);
     }
 }

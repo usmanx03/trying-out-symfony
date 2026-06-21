@@ -11,15 +11,11 @@ final class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(): Response
     {
-        $html = '<html><body><h1>Here are your 100 random numbers: <br></h1><ul>';
-
         for ($i = 0; $i < 100; $i++) {
-            $randomNumber = random_int(0, 1000000);
-            $html .= sprintf('<li>%s</li>', $randomNumber);
+            $randomNumbers[] = random_int(0, 1000000);
         }
 
-        $html .= '</ul></body></html>';
 
-        return new Response($html, Response::HTTP_OK, ['Content-Type' => 'text/html']);
+        return $this->render('home.html.twig', compact('randomNumbers'));
     }
 }
